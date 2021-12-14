@@ -11,7 +11,6 @@ const PORT = process.env.PORT || 5000; // Si en process.env no existe PORT enton
 const server = http.createServer((req,res)=>{
     console.log(req.url);
     if(req.url === '/'){
-        console.log(path.join(__dirname,"public","index.html"));
         fs.readFile(
             path.join(__dirname,"public","index.html"), (err,content) =>{
                 res.writeHead(200,{"Content-Type" : "text/html"});
@@ -20,13 +19,28 @@ const server = http.createServer((req,res)=>{
         )
 
     }else if(req.url === '/about.html'){
-        console.log(path.join(__dirname,"public","about.html"));
+        
         fs.readFile(
             path.join(__dirname,"public","about.html"), (err,content) =>{
                 res.writeHead(200,{"Content-Type" : "text/html"});
                 res.end(content);
             }
         )
+    }else if(req.url === '/api/mascotas'){
+        // serviremos un JSON en lugar de un http
+        const mascotas = [
+            {nombre: "cazan", tipo:"perro"},
+            {nombre: "chiqui", tipo:"gato"},
+        ]
+        res.writeHead(200,
+            {
+                "Content-Type" : "application/json",
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "POST, GET, OPTIONS"
+            }
+            );
+        res.end(JSON.stringify(mascotas));
+
     }else{
         fs.readFile(
             path.join(__dirname,"public","404.html"), (err,content) =>{
