@@ -26,7 +26,7 @@ const server = http.createServer((req, res) => {
           if(err.code == "ENOENT"){
               // no existe mostramos las 404
                 fs.readFile(path.join(__dirname,"public","404.html"), (err, data)=>{
-                    res.writeHead(200, { "Content-Type": getContentType(path.join(__dirname,"public","404.html")) });
+                    res.writeHead(404, { "Content-Type": getContentType(path.join(__dirname,"public","404.html")) });
                     res.end(data);
                 })
           }else{
